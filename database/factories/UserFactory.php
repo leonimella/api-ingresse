@@ -13,12 +13,45 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
+$brazilianStates = [
+    'AC',
+    'AL',
+    'AP',
+    'AM',
+    'BA',
+    'CE',
+    'DF',
+    'ES',
+    'GO',
+    'MA',
+    'MT',
+    'MS',
+    'MG',
+    'PA',
+    'PB',
+    'PR',
+    'PE',
+    'PI',
+    'RJ',
+    'RN',
+    'RS',
+    'RO',
+    'RR',
+    'SC',
+    'SP',
+    'TO',
+    'SE'
+];
+
+$factory->define(App\User::class, function (Faker $faker) use ($brazilianStates) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-        'remember_token' => str_random(10),
+        'country' => $faker->country,
+        'state' => $brazilianStates[rand(0, count($brazilianStates) -1)],
+        'city' => $faker->city,
+        'address' => $faker->streetAddress,
+        'number' => $faker->numberBetween(1, 999),
+        'zipcode' => $faker->postcode
     ];
 });

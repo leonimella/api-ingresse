@@ -19,23 +19,40 @@ class UserTest extends TestCase
     {
         $users = factory(User::class, 5)->create();
 
+        foreach ($users as $user) {
+            $user->number = (string) $user->number;
+        }
+
         $response = $this->get('/api/v1/users');
         $response->assertStatus(200)
             ->assertJson([
                 'data' => $users->toArray(),
-                'links' => [
-                    'self' => '',
-                    'meta' => ''
-                ]
+                'links' => [],
+                'meta' => []
             ]);
     }
 
     public function testGetSingleUser()
     {
         $user = factory(User::class)->create();
+        $user->number = (string) $user->number;
 
         $response = $this->get('/api/v1/users/' . $user->id);
         $response->assertStatus(200)
-            ->assertJson($user->toArray());
+            ->assertJson([
+                'data' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'country' => $user->country,
+                    'state' => $user->state,
+                    'city' => $user->city,
+                    'address' => $user->address,
+                    'number' => $user->number,
+                    'zipcode' => $user->zipcode,
+                    'updated_at' => [],
+                    'created_at' => []
+                ]
+            ]);
     }
 }

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Resources\UserResource;
+use App\Services\UserService;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Http\Resources\UserCollection;
 
 class UserController extends Controller
@@ -24,11 +25,23 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return UserCollection
+     * @param UserService $userService
+     * @return UserResource
      */
-    public function store(Request $request)
+    public function store(Request $request, UserService $userService)
     {
-        //
+        try {
+            $user = $userService::createUser($request);
+            return new UserResource($user);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => [
+                    'status' => 400,
+                    'message' => $e->getMessage()
+                ]
+            ], 400);
+        }
+
     }
 
     /**
@@ -39,7 +52,18 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return new UserResource(User::find($id));
+        $user = User::find($id);
+
+        if (empty($user)) {
+            return response()->json([
+                'error' => [
+                    'status' => 404,
+                    'message' => 'Resource not found'
+                ]
+            ], 404);
+        }
+
+        return new UserResource($user);
     }
 
     /**

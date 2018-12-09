@@ -82,38 +82,38 @@ class UserTest extends TestCase
 
         $invalidArgumentUser = [
             'name' => 'Usuário Inválido',
-            'state' => '',
             'city' => 'São Paulo',
             'address' => 'Rua Jump',
-            'number' => '',
-            'zipcode' => ''
         ];
 
         $response = $this->post('/api/v1/users/', $invalidStateUser);
         $response->assertStatus(400)
             ->assertJson([
-                'error' => []
+                'error' => [
+                    'status' => 400
+                ]
             ]);
 
         $response = $this->post('/api/v1/users/', $invalidArgumentUser);
-        $response->assertStatus(422)
+        $response->assertStatus(400)
             ->assertJson([
-                'error' => []
+                'error' => [
+                    'status' => 400
+                ]
             ]);
 
         $response = $this->post('/api/v1/users/', $validUser);
         $response->assertStatus(201)
             ->assertJson([
                 'data' => [
-                    'id' => $validUser->id,
-                    'name' => $validUser->name,
-                    'email' => $validUser->email,
-                    'country' => $validUser->country,
-                    'state' => $validUser->state,
-                    'city' => $validUser->city,
-                    'address' => $validUser->address,
-                    'number' => $validUser->number,
-                    'zipcode' => $validUser->zipcode,
+                    'name' => $validUser['name'],
+                    'email' => $validUser['email'],
+                    'country' => $validUser['country'],
+                    'state' => $validUser['state'],
+                    'city' => $validUser['city'],
+                    'address' => $validUser['address'],
+                    'number' => $validUser['number'],
+                    'zipcode' => $validUser['zipcode'],
                     'updated_at' => [],
                     'created_at' => []
                 ]

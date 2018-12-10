@@ -3,8 +3,11 @@
 namespace App\Services;
 
 use App\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use mysql_xdevapi\Exception;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 class UserService
 {
@@ -33,6 +36,36 @@ class UserService
 
         $errorMessage = UserService::parseErrorMessages($submittedData->getMessageBag()->getMessages());
         throw new \Exception($errorMessage);
+    }
+
+    /**
+     * @param Request $request
+     * @param int $id
+     * @return User
+     * @throws \Exception
+     */
+    public static function updateUser(Request $request, int $id): User
+    {
+        $user = User::find($id);
+
+        if (empty($user)) {
+            throw new InvalidParameterException('Resource not found.');
+        }
+
+        $submittedData = Validator::make($request->all(), [
+            'email' => 'unique:users,email',
+            'state' => 'max:2',
+        ]);
+
+        if ($submittedData->fails()) {
+            $errorMessage = UserService::parseErrorMessages($submittedData->getMessageBag()->getMessages());
+            throw new \Exception($errorMessage);
+        }
+
+        $user->fill($request->all());
+        $user->save();
+
+        return $user;
     }
 
     /**

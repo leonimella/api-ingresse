@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserCollection;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 class UserController extends Controller
 {
@@ -25,7 +26,7 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param UserService $userService
+     * @param  UserService $userService
      * @return UserResource
      */
     public function store(Request $request, UserService $userService)
@@ -71,11 +72,29 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  UserService $userService
+     * @return UserResource
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, UserService $userService, $id)
     {
-        //
+        try {
+            $user = $userService::updateUser($request, $id);
+            return new UserResource($user);
+        } catch (InvalidParameterException $e) {
+            return response()->json([
+                'error' => [
+                    'status' => 404,
+                    'message' => $e->getMessage()
+                ]
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => [
+                    'status' => 400,
+                    'message' => $e->getMessage()
+                ]
+            ], 400);
+        }
     }
 
     /**

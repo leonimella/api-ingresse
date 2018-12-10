@@ -124,7 +124,7 @@ class UserTest extends TestCase
     {
         $user = factory(User::class)->create();
         $invalidUserUpdate = [
-            'state' => 'São Paulo'
+            'state' => 'São Paulo',
         ];
         $validUserUpdate = [
             'number' => 10,
@@ -150,11 +150,11 @@ class UserTest extends TestCase
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
-                    'country' => $validUserUpdate->country,
+                    'country' => $validUserUpdate['country'],
                     'state' => $user->state,
                     'city' => $user->city,
                     'address' => $user->address,
-                    'number' => (string) $validUserUpdate->number,
+                    'number' => (string) $validUserUpdate['number'],
                     'zipcode' => $user->zipcode,
                     'updated_at' => [],
                     'created_at' => []

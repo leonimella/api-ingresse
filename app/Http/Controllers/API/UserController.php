@@ -101,10 +101,21 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return UserResource
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+
+        if (empty($user)) {
+            return response()->json([
+                'error' => [
+                    'status' => 404,
+                    'message' => 'Resource not found.'
+                ]
+            ], 404);
+        }
+
+        return new UserResource($user);
     }
 }

@@ -3,15 +3,15 @@
 namespace App\Services;
 
 use App\User;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use mysql_xdevapi\Exception;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 class UserService
 {
     /**
+     * Check if request has valid data and create a new User.
+     *
      * @param Request $request
      * @throws \Exception
      * @return User
@@ -39,6 +39,8 @@ class UserService
     }
 
     /**
+     * Check if request has valid data, if resource exists and update the given User
+     *
      * @param Request $request
      * @param int $id
      * @return User
@@ -69,6 +71,8 @@ class UserService
     }
 
     /**
+     * Helper function to parse arrays of error messages in to a single string.
+     *
      * @param array $errors
      * @return string
      */

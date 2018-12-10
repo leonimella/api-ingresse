@@ -1,0 +1,156 @@
+{
+	"info": {
+		"_postman_id": "87840116-b123-43c1-b3de-cf9a9cfdee5d",
+		"name": "Test API Ingresse",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/users/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						""
+					]
+				},
+				"description": "GET request to list all users"
+			},
+			"response": []
+		},
+		{
+			"name": "Get specific user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/users/99",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"99"
+					]
+				},
+				"description": "GET request to fetch one user based on id."
+			},
+			"response": []
+		},
+		{
+			"name": "Create new user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Novo Usuário\",\n\t\"email\": \"novo@usuario.com.br\",\n\t\"country\": \"Brasil\",\n\t\"state\": \"SP\",\n\t\"city\": \"São Paulo\",\n\t\"address\": \"Rua de teste\",\n\t\"number\": 110,\n\t\"zipcode\": \"07676-990\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/users/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						""
+					]
+				},
+				"description": "POST request to create new user."
+			},
+			"response": []
+		},
+		{
+			"name": "Update user",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"state\": \"SP\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/users/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"1"
+					]
+				},
+				"description": "PUT request to update users."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/users/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"1"
+					]
+				},
+				"description": "DELETE request to remove a specific user."
+			},
+			"response": []
+		}
+	]
+}

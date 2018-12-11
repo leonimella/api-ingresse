@@ -3,15 +3,8 @@ jobs:
   build:
     docker:
       - image: circleci/php:7-fpm
+      - image: redis:5.0.2
     steps:
-      - run:
-          name: 'Installing Redis'
-          command: |
-            wget http://download.redis.io/redis-stable.tar.gz && tar xvzf redis-stable.tar.gz && cd redis-stable && make
-      - run:
-          name: 'Testing Redis'
-          command: |
-            redis-cli ping
       - checkout
       - run:
           name: 'Creating .env file'

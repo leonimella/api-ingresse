@@ -55,7 +55,7 @@ composer install
     
 Generate key for the application
 ```
-php artisan generate:key
+php artisan key:generate
 ```
 Make the migration to build database schema
 ```

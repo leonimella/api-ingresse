@@ -5,10 +5,31 @@ jobs:
       - image: circleci/php:7-fpm
     steps:
       - checkout
-      - run: cp .circleci/.env.example .env
-      - run: composer install -v
-      - run: php artisan migrate
       - run:
-          name: 'Running Tests'
+          name: 'Creating .env file'
           command: |
-            ./vendor/bin/phpcs -p ./ && ./vendo/bin/phpunit
+            cp .circleci/.env.example .env
+      - run:
+          name: 'Creating database file'
+          command: |
+            touch database/test-db.sqlite
+      - run:
+          name: 'Install Project dependencies'
+          command: |
+            composer install -v
+      - run:
+          name: 'Generating application key'
+          command: |
+            php artisan key:generate
+      - run:
+          name: 'Creating database schema'
+          command: |
+            php artisan migrate
+      - run:
+          name: 'Running PHPCS tests'
+          command: |
+            ./vendor/bin/phpcs -p ./
+      - run:
+          name: 'Running PHPUnit tests'
+          command: |
+            ./vendor/bin/phpunit

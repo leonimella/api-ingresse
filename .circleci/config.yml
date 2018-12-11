@@ -2,7 +2,13 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/php:7-fpm
+      - image: wyveo/nginx-php-fpm:7.2
     steps:
       - checkout
-      - run: echo "A first hello"
+      - run: cp .circleci/.env.example .env
+      - run: composer install -v
+      - run: php artisan migrate
+      - run:
+          name: 'Running Tests'
+          command: |
+            ./vendor/bin/phpcs -p ./ && ./vendo/bin/phpunit

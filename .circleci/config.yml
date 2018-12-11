@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: wyveo/nginx-php-fpm:7.2
+      - image: circleci/php:7-fpm
     steps:
       - checkout
       - run: cp .circleci/.env.example .env

@@ -3,18 +3,26 @@
 namespace Tests\Feature;
 
 use App\User;
+use Illuminate\Support\Facades\Redis;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends TestCase
 {
+    /**
+     *  Refreshing Database after each test method
+     */
     use RefreshDatabase;
 
     /**
-     * A basic test example.
-     *
-     * @return void
+     *  Discard Redis data before the test run
      */
+    public function setUp()
+    {
+        parent::setUp();
+        Redis::flushall();
+    }
+
     public function testGetAllUsers()
     {
         $users = factory(User::class, 5)->create();
@@ -50,8 +58,8 @@ class UserTest extends TestCase
                     'address' => $user->address,
                     'number' => $user->number,
                     'zipcode' => $user->zipcode,
-                    'updated_at' => [],
-                    'created_at' => []
+                    'created_at' => $user->created_at->format('Y-m-d H:i:s'),
+                    'updated_at' => $user->updated_at->format('Y-m-d H:i:s')
                 ]
             ]);
     }
@@ -113,9 +121,7 @@ class UserTest extends TestCase
                     'city' => $validUser['city'],
                     'address' => $validUser['address'],
                     'number' => $validUser['number'],
-                    'zipcode' => $validUser['zipcode'],
-                    'updated_at' => [],
-                    'created_at' => []
+                    'zipcode' => $validUser['zipcode']
                 ]
             ]);
     }
@@ -156,8 +162,8 @@ class UserTest extends TestCase
                     'address' => $user->address,
                     'number' => (string) $validUserUpdate['number'],
                     'zipcode' => $user->zipcode,
-                    'updated_at' => [],
-                    'created_at' => []
+                    'created_at' => $user->created_at->format('Y-m-d H:i:s'),
+                    'updated_at' => $user->updated_at->format('Y-m-d H:i:s')
                 ]
             ]);
     }
@@ -185,8 +191,8 @@ class UserTest extends TestCase
                     'address' => $user->address,
                     'number' => $user->number,
                     'zipcode' => $user->zipcode,
-                    'updated_at' => [],
-                    'created_at' => []
+                    'created_at' => $user->created_at->format('Y-m-d H:i:s'),
+                    'updated_at' => $user->updated_at->format('Y-m-d H:i:s')
                 ]
             ]);
     }

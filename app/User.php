@@ -10,6 +10,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    public const CACHEKEY = 'user_';
+
     /**
      * The attributes that are mass assignable.
      *

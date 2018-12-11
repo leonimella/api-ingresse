@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Services\UserService;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserCollection;
@@ -53,18 +54,28 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
+        $user = Redis::get(User::CACHEKEY . $id);
 
         if (empty($user)) {
-            return response()->json([
-                'error' => [
-                    'status' => 404,
-                    'message' => 'Resource not found'
-                ]
-            ], 404);
+
+            $user = User::find($id);
+
+            if (empty($user)) {
+                return response()->json([
+                    'error' => [
+                        'status' => 404,
+                        'message' => 'Resource not found'
+                    ]
+                ], 404);
+            }
+
+            Redis::set(User::CACHEKEY . $id, $user);
+            $user = Redis::get(User::CACHEKEY . $id);
         }
 
-        return new UserResource($user);
+        return response()->json([
+            'data' => json_decode($user)
+        ], 200);
     }
 
     /**
@@ -106,6 +117,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
+        Redis::del(User::CACHEKEY . $id);
 
         if (empty($user)) {
             return response()->json([

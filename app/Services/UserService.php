@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
@@ -31,6 +32,7 @@ class UserService
 
         if (!$submittedData->fails()) {
             $user = User::create($request->all());
+            Redis::set(User::CACHEKEY . $user->id, $user);
             return $user;
         }
 
@@ -66,6 +68,7 @@ class UserService
 
         $user->fill($request->all());
         $user->save();
+        Redis::set(User::CACHEKEY . $user->id, $user);
 
         return $user;
     }

@@ -1,16 +1,21 @@
 # API Ingresse
 
-Teste application for [Ingresse](https://www.ingresse.com/)
+Current master branch status: [![CircleCI](https://circleci.com/gh/leonimella/api-ingresse/tree/master.svg?style=svg)](https://circleci.com/gh/leonimella/api-ingresse/tree/master)
 
-## Overview
- This application is a simple REST API build with Laravel that show, create, update and destroy (CRUD) user data. The CRUD routes are built using HTTP verbs.
+This application is a simple REST API build with [Laravel](https://laravel.com) that show, create, update and destroy (CRUD) user data. The CRUD routes are built using HTTP verbs.
+
+## Topics
+ - [Resources](#resources)
+ - [Installation](#installation)
+ - [Making Requests](#making-requests)
+ - [Testing](#testing)
  
 ## Resources
 
 - `test-api-ingresse.postman_collection.json` file. Collection of requests to test the application via [Postman](https://postman.co). If you have Postman installed, just import this file to your collections.
 - Main route: `/api/v1/users/`
 
-## Install
+## Installation
 Clone the repository
 ```
 git clone https://github.com/leonimella/api-ingresse.git api-ingresse
@@ -202,3 +207,10 @@ status code - 400, 404, 500
     }
 }
 ```
+
+## Testing
+To run the tests just type in your terminal 
+```
+./vendor/bin/phpcs -p ./ && ./vendor/bin/phpunit
+```
+This will run PHP CodeSniffer and PHPUnit tests respectively.

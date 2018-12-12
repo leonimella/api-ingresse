@@ -2,7 +2,7 @@
 
 Master Branch: [![CircleCI](https://circleci.com/gh/leonimella/api-ingresse/tree/master.svg?style=svg)](https://circleci.com/gh/leonimella/api-ingresse/tree/master)
 
-This repository contains a test application for [Ingresse](https://ingresse.com.br) company That consist in a simple REST API build with [Laravel](https://laravel.com). It has CRUD operations using HTTP verbs.
+This repository contains a test application for [Ingresse](https://ingresse.com.br). It consist in a simple REST API built in [Laravel](https://laravel.com). It performs CRUD operations using HTTP verbs.
 
 ## Topics
  - [Overview](#overview)
@@ -12,11 +12,11 @@ This repository contains a test application for [Ingresse](https://ingresse.com.
  
 ## Overview
 
-We will manipulate user data through HTTP requests using GET, POST, PUT and DELETE verbs for their respective actions.
+We manipulate user data through HTTP requests using the GET, POST, PUT and DELETE verbs.
 
 The main route of the application is: `/api/v1/users/`.
 
-If you would like to use [Postman](https://www.getpostman.com/) to perform your requests you will find in the root of the application the file:`test-api-ingresse.postman_collection.json`. This file contains a collection of requests with parameters to use right away. Just import this file in your collections inside Postman and you are good to go.
+If you would like to use [Postman](https://www.getpostman.com/) to perform your requests you will find at the root of the application a file:`api-ingresse.postman_collection.json`. This file contains a collection of requests with parameters to use right away. Just import this file in your collections inside Postman and you are good to go.
 
 _Note_: This Postman's collection makes requests to http://localhost:8080 so make sure that your host is configured properly. If you wish you can alter the server inside each request of the collection. 
 
@@ -71,7 +71,7 @@ And at last, start the server
 ```
 php artisan serve
 ```
-Open your browser and navigate to [localhost:8080](http://localhost:8080) and make sure you see 'API Ingresse' printed on the screen.
+Open your browser and navigate to [localhost:8000](http://localhost:8000) and make sure you see 'API Ingresse' printed on the screen.
 
 ## Making Requests
 
@@ -215,7 +215,18 @@ status code - 400, 404, 500
 ```
 
 ## Testing
-To run the tests just type in your terminal 
+As mentioned above, it's recommended that you create a __.env.testing__ file to run the tests in a 'exclusive' environment.
+
+Inside of your __.env.testing__ make sure that the `APP_ENV` parameter is equal to `test` and the `APP_KEY` has the key value. Also change your's database configuration to connect in another database.
+
+For example, using a sqlite file to run testing:
+```
+DB_CONNECTION=sqlite
+DB_DATABASE=database/db-file.sqlite
+```
+_Note_: Remember to create a `*.sqlite` file and add the path to the `.env.testing`
+
+If you are all set, run the tests commands. 
 ```
 ./vendor/bin/phpcs -p ./ && ./vendor/bin/phpunit
 ```

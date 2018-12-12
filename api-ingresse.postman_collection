@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "87840116-b123-43c1-b3de-cf9a9cfdee5d",
-		"name": "Test API Ingresse",
+		"_postman_id": "c45e988e-96bf-4d4b-9ab3-10cff34a6660",
+		"name": "API Ingresse",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -42,7 +42,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8000/api/v1/users/99",
+					"raw": "http://localhost:8000/api/v1/users/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -52,7 +52,7 @@
 						"api",
 						"v1",
 						"users",
-						"99"
+						"1"
 					]
 				},
 				"description": "GET request to fetch one user based on id."
@@ -105,7 +105,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"state\": \"SP\"\n}"
+					"raw": "{\n\t\"state\": \"SP\",\n\t\"country\": \"Another Country\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8000/api/v1/users/1",
@@ -151,6 +151,28 @@
 				"description": "DELETE request to remove a specific user."
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "41f7dcf0-bbc3-41c1-a85f-1800376d6347",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "90b7257b-cbaa-4f7b-a405-29cffa65bf9a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }

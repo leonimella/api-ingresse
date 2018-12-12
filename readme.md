@@ -1,19 +1,24 @@
 # API Ingresse
 
-Current master branch status: [![CircleCI](https://circleci.com/gh/leonimella/api-ingresse/tree/master.svg?style=svg)](https://circleci.com/gh/leonimella/api-ingresse/tree/master)
+Master Branch: [![CircleCI](https://circleci.com/gh/leonimella/api-ingresse/tree/master.svg?style=svg)](https://circleci.com/gh/leonimella/api-ingresse/tree/master)
 
-This application is a simple REST API build with [Laravel](https://laravel.com) that show, create, update and destroy (CRUD) user data. The CRUD routes are built using HTTP verbs.
+This repository contains a test application for [Ingresse](https://ingresse.com.br) company That consist in a simple REST API build with [Laravel](https://laravel.com). It has CRUD operations using HTTP verbs.
 
 ## Topics
- - [Resources](#resources)
+ - [Overview](#overview)
  - [Installation](#installation)
  - [Making Requests](#making-requests)
  - [Testing](#testing)
  
-## Resources
+## Overview
 
-- `test-api-ingresse.postman_collection.json` file. Collection of requests to test the application via [Postman](https://postman.co). If you have Postman installed, just import this file to your collections.
-- Main route: `/api/v1/users/`
+We will manipulate user data through HTTP requests using GET, POST, PUT and DELETE verbs for their respective actions.
+
+The main route of the application is: `/api/v1/users/`.
+
+If you would like to use [Postman](https://www.getpostman.com/) to perform your requests you will find in the root of the application the file:`test-api-ingresse.postman_collection.json`. This file contains a collection of requests with parameters to use right away. Just import this file in your collections inside Postman and you are good to go.
+
+_Note_: This Postman's collection makes requests to http://localhost:8080 so make sure that your host is configured properly. If you wish you can alter the server inside each request of the collection. 
 
 ## Installation
 Clone the repository
@@ -45,7 +50,7 @@ DB_CONNECTION=sqlite
 DB_DATABASE=/absolute/path/to/database/file-db.sqlite
 ```
 
-_**Optional**_: I recommend that you create a **.env.testing** file with another database configuration which will be used during HTTP Tests. This will prevent unwanted changes in your main db.
+_**Recommended**_: Create a **.env.testing** file with another database configuration which will be used during tests. This will prevent unwanted changes in your main db.
 
 
 Run composer
@@ -57,19 +62,20 @@ Generate key for the application
 ```
 php artisan key:generate
 ```
-Make the migration to build database schema
+Make the migration to build database schema and populate with data
 ```
-php artisan migrate
+php artisan migrate --seed
 ```
-And at last, start the serve
+
+And at last, start the server
 ```
 php artisan serve
 ```
-Open your browser and navigate to [localhost:8000](http://localhost:8000) and make sure you see 'API Ingresse' printed.
+Open your browser and navigate to [localhost:8080](http://localhost:8080) and make sure you see 'API Ingresse' printed on the screen.
 
 ## Making Requests
 
-This application use HTTP verbs to perform CRUD operation in route `/api/v1/users/` and `/api/v1/users/{userId}`
+This application use HTTP verbs to perform CRUD operation in route `/api/v1/users/` and `/api/v1/users/{userId}`. Bellow you can see examples of requests and responses for each route available.
 
 ##### List all users
 ```
@@ -91,7 +97,7 @@ status code - 200
     meta: {} // Resource metadata
 }
 ```
-##### Get a specific user
+##### Read data of a specific user
 ```
 REQUEST
 
@@ -109,7 +115,7 @@ status code - 200
     data: {}, // Object with user data
 }
 ```
-##### Create user
+##### Create a new user
 ```
 REQUEST
 
@@ -154,7 +160,7 @@ status code - 201
     }
 }
 ```
-##### Update user
+##### Update an existing user
 ```
 REQUEST
 
@@ -175,7 +181,7 @@ status code - 200
     "data": {} // Object with updated user data
 }
 ```
-##### Delete user
+##### Delete an existing user
 ```
 REQUEST
 
@@ -214,3 +220,11 @@ To run the tests just type in your terminal
 ./vendor/bin/phpcs -p ./ && ./vendor/bin/phpunit
 ```
 This will run PHP CodeSniffer and PHPUnit tests respectively.
+
+## Misc
+Some more information about this project
+
+- Powered by: [Laravel 5.7](https://laravel.com/docs/5.7)
+- Developed with: [PHPStorm](https://www.jetbrains.com/phpstorm/)
+- Main OS used: [Ubuntu 18.04](http://releases.ubuntu.com/18.04/)
+- API Environment: [Postman](https://www.getpostman.com/)

@@ -195,5 +195,10 @@ class UserTest extends TestCase
                     'updated_at' => $user->updated_at->format('Y-m-d H:i:s')
                 ]
             ]);
+
+        $this->assertDatabaseMissing('users', [
+            'id' => $user->id,
+            'email' => $user->email
+        ]);
     }
 }

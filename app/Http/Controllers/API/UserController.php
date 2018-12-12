@@ -128,6 +128,7 @@ class UserController extends Controller
             ], 404);
         }
 
+        $user->delete();
         return new UserResource($user);
     }
 }

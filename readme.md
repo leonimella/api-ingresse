@@ -2,11 +2,14 @@
 
 Master Branch: [![CircleCI](https://circleci.com/gh/leonimella/api-ingresse/tree/master.svg?style=svg)](https://circleci.com/gh/leonimella/api-ingresse/tree/master)
 
-This repository contains a test application for [Ingresse](https://ingresse.com.br). It consist in a simple REST API built in [Laravel](https://laravel.com). It performs CRUD operations using HTTP verbs.
+This repository contains a test application for [Ingresse](https://ingresse.com.br). It consist in a simple 
+REST API built in [Laravel](https://laravel.com). It performs CRUD operations using HTTP verbs.
 
 ## Topics
  - [Overview](#overview)
  - [Installation](#installation)
+    - [Install locally](#install-locally)
+    - [Install with Docker](#install-with-docker)
  - [Making Requests](#making-requests)
  - [Testing](#testing)
  
@@ -16,11 +19,16 @@ We manipulate user data through HTTP requests using the GET, POST, PUT and DELET
 
 The main route of the application is: `/api/v1/users/`.
 
-If you would like to use [Postman](https://www.getpostman.com/) to perform your requests you will find at the root of the application a file:`api-ingresse.postman_collection.json`. This file contains a collection of requests with parameters to use right away. Just import this file in your collections inside Postman and you are good to go.
+If you would like to use [Postman](https://www.getpostman.com/) to perform your requests you will find at the root of 
+the application a file:`api-ingresse.postman_collection.json`. This file contains a collection of requests with 
+parameters to use right away. Just import this file in your collections inside Postman and you are good to go.
 
-_Note_: This Postman's collection makes requests to http://localhost:8080 so make sure that your host is configured properly. If you wish you can alter the server inside each request of the collection. 
+_Note_: This Postman's collection makes requests to http://localhost:8080 so make sure that your host is configured 
+properly. If you wish you can change the host inside each request of the collection. 
 
 ## Installation
+Despite the installation method, these steps are in both, so please, make sure to run them.
+
 Clone the repository
 ```
 git clone https://github.com/leonimella/api-ingresse.git api-ingresse
@@ -50,32 +58,74 @@ DB_CONNECTION=sqlite
 DB_DATABASE=/absolute/path/to/database/file-db.sqlite
 ```
 
-_**Recommended**_: Create a **.env.testing** file with another database configuration which will be used during tests. This will prevent unwanted changes in your main db.
+_**Recommended**_: Create a **.env.testing** file with another database configuration which will be used during tests. 
+This will prevent unwanted changes in your main db.
 
+#### Install locally
+If you choose this method it's required that you have the following installed in your machine:
 
-Run composer
+- PHP 7.2
+- Composer
+- MariaDB 10.3 or MySQL 5.7
+
+Make sure that you complete all the steps in [Installation](#installation) section before running these commands.
+
+Run composer to install the application dependencies
 ```
 composer install
 ```
-    
 Generate key for the application
 ```
 php artisan key:generate
 ```
-Make the migration to build database schema and populate with data
+Make the migration to build database schema and populate with some fake data
 ```
 php artisan migrate --seed
 ```
-
 And at last, start the server
 ```
 php artisan serve
 ```
-Open your browser and navigate to [localhost:8000](http://localhost:8000) and make sure you see 'API Ingresse' printed on the screen.
+Open your browser and navigate to [localhost:8000](http://localhost:8000) you should see 'API Ingresse' printed 
+on the screen.
+
+#### Install with Docker
+In order to use this method make sure that you have Docker and Docker Compose up and running on your machine. And also 
+make sure that you follow the steps in [Installation](#installation) section.
+
+Run this command to install the app dependencies with composer.
+
+_Note_: This command will generate a 'self destructing' container that will vanish after install the dependencies.
+```
+docker run --rm -v $(pwd):/app composer install
+```
+And then start docker compose
+
+_Note_: It will take a few minutes to complete this command if you are running this for the first time
+```
+docker-compose up
+```
+When the build process is done it's time to configure application. Now you can follow the 
+[Install locally](#install-locally) section steps, but you need to prepend every command with
+`docker-compose exec app` so the commands are executed inside the container!
+
+__Important__: You don't need to run the last command `php artisan serve` if you are using Docker. The application will 
+be served from the NGINX container. In this case you will use the host: [http://localhost:8080](http://localhost:8080) 
+to make requests.
+
+##### Troubleshooting
+
+- Make sure that your __.env__ files match the containers requirements.
+    - Check your `DB_DATABASE` variables inside the `.env` files and make sure that are the same as `environment` in
+    database service inside `docker-compose.yml`.
+    - Check your `REDIS_HOST` variable inside the `.env` files and see if the value is set to `redis` instead of
+    `localhost`.
+- If you have permission problems, make sure that the application folder is owned by the `www-data` user.
 
 ## Making Requests
 
-This application use HTTP verbs to perform CRUD operation in route `/api/v1/users/` and `/api/v1/users/{userId}`. Bellow you can see examples of requests and responses for each route available.
+This application use HTTP verbs to perform CRUD operation in route `/api/v1/users/` and `/api/v1/users/{userId}`. 
+Bellow you can see examples of requests and responses for each route available.
 
 ##### List all users
 ```
@@ -215,9 +265,11 @@ status code - 400, 404, 500
 ```
 
 ## Testing
-As mentioned above, it's recommended that you create a __.env.testing__ file to run the tests in a 'exclusive' environment.
+As mentioned above, it's recommended that you create a __.env.testing__ file to run the tests in a 'exclusive' 
+environment.
 
-Inside of your __.env.testing__ make sure that the `APP_ENV` parameter is equal to `test` and the `APP_KEY` has the key value. Also change your's database configuration to connect in another database.
+Inside of your __.env.testing__ make sure that the `APP_ENV` parameter is equal to `test` and the `APP_KEY` has the key 
+value. Also change your's database configuration to connect in another database.
 
 For example, using a sqlite file to run testing:
 ```
